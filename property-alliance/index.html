@@ -98,18 +98,55 @@
 			<div class="body-content">
 				<div class="section"> 
  <h2 id="Property-Alliance">Property-Alliance</h2> 
- <p>This is the home page of a new effort to create a meta-model for Java. The goal is to include the meta-model in Java SE, to replace <tt>java.beans</tt>.</p> 
- <p>A meta-model provides a standard way to examine, create and modify objects. It can be thought of as version 2.0 of the JavaBeans specification.</p> 
- <p>This site is relatively simple - a collection of pages discussing the problem. There is also some <a class="externalLink" href="https://github.com/jodastephen/property-alliance">code</a>.</p>
+ <p>This is the home page of a new effort to create a meta-model for Java. The goal is to include the meta-model in Java SE, to replace <tt>java.beans</tt>.</p>
+</div> 
+<div class="section"> 
+ <h2 id="What_do_we_mean_by_meta-model">What do we mean by “meta-model”?</h2> 
+ <p>When we use the term meta-model, we mean providing a mechanism to access information about objects in Java. The most common meta-model is <a class="externalLink" href="http://docs.oracle.com/javase/8/docs/api/java/lang/reflect/package-summary.html">reflection</a> via <tt>Class</tt>, <tt>Method</tt> and <tt>Field</tt>.</p> 
+ <p>The second common meta-model is the <a class="externalLink" href="http://blog.joda.org/2014/11/the-javabeans-specification.html">JavaBeans specification</a>. This defines the concept of a <i>bean</i> with a set of <i>properties</i>.</p> 
+ <p>A bean with properties is a Java class that obeys certain rules. These include:</p> 
+ <ul> 
+  <li>a public no-argument constructor</li> 
+  <li>implementing <tt>Serializable</tt></li> 
+  <li>public <i>getter</i> and <i>setter</i> pairs that provide access to each property on the object</li> 
+ </ul> 
+ <p>The meta-model for beans is defined by the <a class="externalLink" href="http://docs.oracle.com/javase/8/docs/api/java/beans/package-summary.html"><tt>java.beans</tt></a> package in the JDK. The package provides a way to <i>introspect</i> an object to determine what properties the bean has.</p> 
+ <p>The meta-model for a bean is <a class="externalLink" href="http://docs.oracle.com/javase/8/docs/api/java/beans/BeanDescriptor.html"><tt>BeanDescriptor</tt></a>. Each property is exposed using <a class="externalLink" href="http://docs.oracle.com/javase/8/docs/api/java/beans/PropertyDescriptor.html"><tt>PropertyDescriptor</tt></a>. Additional information is also available on events, parameters and methods.</p> 
+ <p>The bean meta-model is similar to reflection but sits at a higher level of abstraction. Instead of the low-level fields and methods with their scopes (private, protected, public), the bean meta-model exposes only public features. For example, getter and setters are not treated as just methods but are combined into the higher level property concept.</p>
+</div> 
+<div class="section"> 
+ <h2 id="Why_do_we_need_a_new_meta-model">Why do we need a new meta-model?</h2> 
+ <p>The JavaBeans specification was written in 1997 and is hopelessly out of date, despite parts of it being widely used. However, being out of date is <i>not</i> the main driver of the project. Instead the main driver is modularity in JDK 9.</p> 
+ <p>In JDK 9 the <tt>java.beans</tt> package will be located within the “desktop” stack module. As such, if your application depends on <tt>java.beans</tt>, you will pull in all the “desktop” GUI code. For a server-side application, this is a huge unnecessary dependency. By providing a new meta-model to replace <tt>java.beans</tt>, it can be designed to sit within a JDK module outside the “desktop”.</p> 
+ <p>In addition, since this is a new meta-model, the restrictions of JavaBeans can be re-evaluated. Effectively, this is an opportunity to create <a class="externalLink" href="http://blog.joda.org/2014/12/what-might-beans-v20-spec-contain.html">version 2.0</a> of the JavaBeans specification.</p> 
+ <p>Most notably, the new meta-model needs to support the wide range of objects we write today:</p> 
+ <ul> 
+  <li>handle both mutable and immutable objects</li> 
+  <li>handle potential future language changes, such as value types</li> 
+  <li>handle dynamic beans, where the properties are held in a <tt>Map</tt> rather than bytecode fields</li> 
+  <li>be independent of reflection</li> 
+  <li>provide access to annotations</li> 
+ </ul> 
+ <p>Note that the current JavaBeans meta-model is typically only used by framework writers. However, it is intended to make the new meta-model more developer friendly, so it can be used more widely.</p>
+</div> 
+<div class="section"> 
+ <h2 id="Source_code">Source code</h2> 
+ <p>The project exists to develop the source code for a future JSR.</p> 
+ <ul> 
+  <li>View or checkout the <a class="externalLink" href="https://github.com/jodastephen/property-alliance">source code</a></li> 
+  <li>View the <a href="apidocs/index.html">Javadoc</a></li> 
+ </ul>
 </div> 
 <div class="section"> 
  <h2 id="Links">Links</h2> 
+ <p>These links provide information to support the project.</p> 
  <ul> 
-  <li><a href="history_properties.html">Review of properties discussions</a></li> 
-  <li><a href="current_uses.html">Current uses</a></li> 
-  <li><a href="java_fx.html">Java FX properties</a></li> 
-  <li><a href="wiki_home.html">Restored SJSU CS wiki</a></li> 
- </ul>
+  <li><a href="current_uses.html">Current uses</a> - how beans are being used today in frameworks</li> 
+  <li><a href="java_fx.html">Java FX properties</a> - how Java FX properties work</li> 
+  <li><a href="history_properties.html">Review of properties discussions</a> - history of properties (langauge change attempts)</li> 
+  <li><a href="wiki_home.html">Restored SJSU CS wiki</a> - an important wiki of information on properties</li> 
+ </ul> 
+ <p>See something missing? Send a <a class="externalLink" href="https://github.com/jodastephen/jodastephen.github.io">pull request</a>!</p>
 </div> 
 <div class="section"> 
  <h2 id="Contribute">Contribute</h2> 
